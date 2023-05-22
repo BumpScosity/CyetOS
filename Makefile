@@ -28,10 +28,11 @@ program:
 start:
 	$(QQ) $(QQF1)file="$(BIN)/OS.bin"$(QQF2)
 
-input_links = "$(IN)/bin/characters.o" "$(IN)/bin/backspace.o"
+input_links = "$(IN)/bin/characters.o" "$(IN)/bin/backspace.o" "$(IN)/bin/arrow.o"
 define build_input
 	$(CC) $(F3) "$(IN)/characters.c" -o "$(IN)/bin/characters.o"
 	$(CC) $(F3) "$(IN)/backspace.c" -o "$(IN)/bin/backspace.o"
+	$(CC) $(F3) "$(IN)/arrow.c" -o "$(IN)/bin/arrow.o"
 	$(LL) $(F5) "$(BIN)/input.o" $(input_links)
 endef
 
