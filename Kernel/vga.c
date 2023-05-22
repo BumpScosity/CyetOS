@@ -42,17 +42,3 @@ void write_char(char c, int color, int row, int col) { // NM(No Move) means it w
         move_cursor(row, col);
     }
 }
-
-void write_string(const char* str, int color, int row, int col) {
-    int offset = row * VGA_WIDTH + col;
-    int i = 0;
-    while (str[i] != '\0') {
-        write_char_NM(str[i], color, row, col);
-        i++;
-        col++;
-        if (col >= VGA_WIDTH) {
-            col = 0;
-            row++;
-        }
-    }
-}
