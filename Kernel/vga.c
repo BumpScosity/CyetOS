@@ -26,21 +26,3 @@ void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means i
         vga_buffer[offset + 1] = color;
     }
 }
-
-/*
-void write_char(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
-    if (row >= 0 && row < VGA_HEIGHT && col >= 0 && col < VGA_WIDTH) {
-        VGA_cell* vga_entry = &(vga[row][col]);
-
-        vga_entry->character = c;
-        vga_entry->color = color;
-
-        // Write to VGA memory
-        unsigned short offset = (row * VGA_WIDTH + col) * 2;
-        char* vga_buffer = (char*)0xB8000;
-        vga_buffer[offset] = c;
-        vga_buffer[offset + 1] = color;
-        move_cursor(row, col);
-    }
-}
-*/

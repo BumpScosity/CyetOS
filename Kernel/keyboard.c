@@ -81,14 +81,12 @@ void handle_keyboard() {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
                     if (shift) {
-                        col++;
                         write_char_NM(upper(ascii), color, row, col);
-                        move_cursor(row, col);
+                        col++; // move to the next column
                     }
                     else if (!shift) {
-                        col++;
                         write_char_NM(ascii, color, row, col);
-                        move_cursor(row, col);
+                        col++; // move to the next column
                     }
                 }
                 else if (ascii && ascii == ' ') {
@@ -97,7 +95,6 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
-            move_cursor(row, col);
         }
     }
 }
