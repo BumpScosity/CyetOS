@@ -1,6 +1,5 @@
-#include "kernel.h"
-
-VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
+#include "core.h"
+#include "vga.h"
 
 char upper(char c) {
     if (c >= 'a' && c <= 'z') {
@@ -12,28 +11,6 @@ char upper(char c) {
 
 void outb(unsigned short port, unsigned char value) {
     asm volatile ("outb %0, %1" : : "a" (value), "Nd" (port));
-}
-
-void move_cursor(int row, int col) {
-    unsigned short position = (row * VGA_WIDTH) + col;
-
-    outb(0x3D4, 0x0F);
-    outb(0x3D5, (unsigned char)(position & 0xFF));
-    outb(0x3D4, 0x0E);
-    outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
-}
-
-void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
-    VGA_cell* vga_entry = &(vga[row][col]);
-
-    vga_entry->character = c;
-    vga_entry->color = color;
-
-    // Write to VGA memory
-    unsigned short offset = (row * VGA_WIDTH + col) * 2;
-    char* vga_buffer = (char*)0xB8000;
-    vga_buffer[offset] = c;
-    vga_buffer[offset + 1] = color;
 }
 
 void main() {
