@@ -1,5 +1,4 @@
 #include "keyboard.h"
-#include "input.h"
 #include "lib.h"
 #include "core.h"
 #include "vga.h"
@@ -19,7 +18,8 @@ void handle_keyboard() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            shift = shift_handler(key);
+            /*EXTRA KEYS*/
+            // BACKSPACE
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
@@ -27,22 +27,47 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
-            else if (key == 0x4B) { // check for left arrow key scancode
-                if (col > 0) { // make sure there is a character to move back to
-                    col--;
-                    move_cursor(row, col);
-                }
-            }
+            // BACKSPACE
+            // ENTER
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
                 move_cursor(row, col);
             }
-            else if (key == 0x4D) { // check for right arrow key scancode
-                if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
+            // ENTER
+            /*EXTRA KEYS*/
+
+            /*ARROW KEYS*/
+            // LEFT
+            else if (key == 0x4B) {
+                if (col > 0) {
+                    col--;
+                    move_cursor(row, col);
+                }
+            }
+            // LEFT
+            // RIGHT
+            else if (key == 0x4D) {
+                if (col < VGA_WIDTH - 1) {
                     col++;
                     move_cursor(row, col);
                 }
+            }
+            // RIGHT
+            // DOWN
+            else if (key == 0x50) {
+                if (row < VGA_HEIGHT - 1) {
+                    row++;
+                    move_cursor(row, col);
+                }
+            }
+            // DOWN
+            /*ARROW KEYS*/
+            else if (key == 0x2A || key == 0x36) { // shift key pressed
+                shift = true;
+            }
+            else if (key == 0xAA || key == 0xB6) { // shift key released
+                shift = false;
             }
             else if (key < ascii_map_size && key != 0x03) {
                 char ascii = ascii_map[key];
