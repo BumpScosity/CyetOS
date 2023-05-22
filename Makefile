@@ -9,7 +9,7 @@ QQF2 = ,index=0,if=floppy,  -m 256M
 
 F1 = -f bin -o
 F2 = -f elf -o
-F3 = -fno-pic -m32 -ffreestanding -g -c
+F3 = -fno-pic -m32 -ffreestanding -c
 F4 = -m elf_i386 -o
 
 BIN = Binaries
@@ -19,9 +19,10 @@ ASM = Assembly
 program:
 	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
 	$(AA) "$(ASM)/kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
-	$(CC) $(F3) "$(C)/kernel.c" -o "$(BIN)/kernel.o"
+	$(CC) $(F3) "$(KER)/kernel.c" -o "$(BIN)/kernel.o"
+	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
 	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
-	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" --oformat binary
+	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/lib.o" --oformat binary
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
 
 kernel:
