@@ -4,7 +4,7 @@
 #include "lib.h"
 
 void handle_backspace(Cursor_Position *cursor, int color) {
-    if (col > 0) {
+    if (cursor->col > 0) {
         cursor->col--;
         write_char_NM(' ', color, cursor);
         move_cursor(cursor);
