@@ -9,22 +9,6 @@ void handle_backspace(int *row, int *col, int color) {
     move_cursor(*row, *col);
 }
 
-/*
-void handle_left_arrow(int *row, int *col) {
-    if (col > 0) { // make sure there is a character to move back to
-        (*col)--;
-        move_cursor(*row, *col);
-    }
-}
-
-void handle_right_arrow(int *row, int *col) {
-    if (col < VGA_WIDTH) { // make sure there is a character to move back to
-        (*col)++;
-        move_cursor(*row, *col);
-    }
-}
-*/
-
 
 void handle_characters(int *row, int *col, int color, 
  int shift, unsigned char key, const char *ascii_map, const int ascii_map_size) {
