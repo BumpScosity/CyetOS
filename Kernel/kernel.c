@@ -29,7 +29,6 @@ void main() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            arrow_keys(key, row, col);
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
@@ -40,6 +39,17 @@ void main() {
             else if (key == 0x4B) { // check for left arrow key scancode
                 if (col > 0) { // make sure there is a character to move back to
                     col--;
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x1C) { // check for the enter key scancode
+                row++;
+                col = 0;
+                move_cursor(row, col);
+            }
+            else if (key == 0x4D) { // check for right arrow key scancode
+                if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
+                    col++;
                     move_cursor(row, col);
                 }
             }
@@ -67,7 +77,6 @@ void main() {
                     move_cursor(row, col);
                 }
             }
-            move_cursor(row, col);
         }
     }
 
