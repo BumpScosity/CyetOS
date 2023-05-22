@@ -13,14 +13,46 @@ void move_cursor(int row, int col) {
 }
 
 void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
-    VGA_cell* vga_entry = &(vga[row][col]);
+    if (row >= 0 && row < VGA_HEIGHT && col >= 0 && col < VGA_WIDTH) {
+        VGA_cell* vga_entry = &(vga[row][col]);
 
-    vga_entry->character = c;
-    vga_entry->color = color;
+        vga_entry->character = c;
+        vga_entry->color = color;
 
-    // Write to VGA memory
-    unsigned short offset = (row * VGA_WIDTH + col) * 2;
-    char* vga_buffer = (char*)0xB8000;
-    vga_buffer[offset] = c;
-    vga_buffer[offset + 1] = color;
+        // Write to VGA memory
+        unsigned short offset = (row * VGA_WIDTH + col) * 2;
+        char* vga_buffer = (char*)0xB8000;
+        vga_buffer[offset] = c;
+        vga_buffer[offset + 1] = color;
+    }
+}
+
+void write_char(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
+    if (row >= 0 && row < VGA_HEIGHT && col >= 0 && col < VGA_WIDTH) {
+        VGA_cell* vga_entry = &(vga[row][col]);
+
+        vga_entry->character = c;
+        vga_entry->color = color;
+
+        // Write to VGA memory
+        unsigned short offset = (row * VGA_WIDTH + col) * 2;
+        char* vga_buffer = (char*)0xB8000;
+        vga_buffer[offset] = c;
+        vga_buffer[offset + 1] = color;
+        move_cursor(row, col);
+    }
+}
+
+void write_string(const char* str, int color, int row, int col) {
+    int offset = row * VGA_WIDTH + col;
+    int i = 0;
+    while (str[i] != '\0') {
+        write_char_NM(str[i], color, row, col);
+        i++;
+        col++;
+        if (col >= VGA_WIDTH) {
+            col = 0;
+            row++;
+        }
+    }
 }

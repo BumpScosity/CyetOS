@@ -13,6 +13,8 @@ void handle_keyboard() {
     int row = 0;
     int col = 0;
     int shift = false;
+
+    write_string("> ", color, row, col);
         
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
@@ -32,6 +34,7 @@ void handle_keyboard() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
+                write_string("> ", color, row, col);
                 move_cursor(row, col);
             }
             // ENTER
@@ -80,15 +83,12 @@ void handle_keyboard() {
             else if (key < ascii_map_size && key != 0x03) {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
-                    if (col++ < VGA_WIDTH) {
-                        row++;
-                    }
                     if (shift) {
-                        write_char_NM(upper(ascii), color, row, col);
+                        write_char(upper(ascii), color, row, col);
                         col++; // move to the next column
                     }
                     else if (!shift) {
-                        write_char_NM(ascii, color, row, col);
+                        write_char(ascii, color, row, col);
                         col++; // move to the next column
                     }
                 }

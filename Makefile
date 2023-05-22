@@ -2,7 +2,6 @@ AA = nasm
 CC = gcc
 LL = ld
 QQ = qemu-system-x86_64
-V = vim
 
 QQF1 = -k en-us -drive format=raw,
 QQF2 = ,index=0,if=floppy,  -m 256M
@@ -28,14 +27,6 @@ program:
 	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
 	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 $(kernel_objects) --oformat binary
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
-
-kernel:
-	rm kernel.c
-	$(V) kernel.c
-
-boot:
-	rm boot.asm
-	$(V) boot.asm
 
 start:
 	$(QQ) $(QQF1)file="$(BIN)/OS.bin"$(QQF2)
