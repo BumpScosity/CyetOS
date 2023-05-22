@@ -19,10 +19,12 @@ void handle_character(char key, int row, int col, int color, bool shift, char as
             if (shift) {
                 write_char_NM(upper(ascii), color, row, col);
                 col++;
+                move_cursor(row, col);
             }
             else if (!shift) {
                 write_char_NM(ascii, color, row, col);
                 col++;
+                move_cursor(row, col);
             }
         }
         else if (ascii && ascii == ' ') {
