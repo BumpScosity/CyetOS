@@ -42,5 +42,5 @@ define build_kernel
 	$(CC) $(F3) "$(KER)/vga.c" -o "$(BIN)/vga.o"
 	$(CC) $(F3) "$(KER)/keyboard.c" -o "$(BIN)/keyboard.o"
 	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
-	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 $(kernel_links) --oformat binary
+	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x9000 $(kernel_links) --oformat binary
 endef

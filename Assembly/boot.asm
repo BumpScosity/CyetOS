@@ -1,6 +1,6 @@
 [org 0x7c00]
 
-KERNEL_LOCATION equ 0x1000  ; Kernel will be loaded at this memory location
+KERNEL_LOCATION equ 0x9000  ; Kernel will be loaded at this memory location
 
 mov [BOOT_DISK], dl
 
