@@ -6,4 +6,9 @@
 #define true 1
 #define false 0
 
+typedef struct {
+    char character;
+    int color;
+} VGA_cell;
+
 #endif // KERNEL_H 

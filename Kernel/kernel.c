@@ -1,6 +1,38 @@
 #include "kernel.h"
-#include "lib.h"
-#include "vga.h"
+
+char upper(char c) {
+    if (c >= 'a' && c <= 'z') {
+        return c - ('a' - 'A');
+    } else {
+        return c;
+    }
+}
+
+void outb(unsigned short port, unsigned char value) {
+    asm volatile ("outb %0, %1" : : "a" (value), "Nd" (port));
+}
+
+void move_cursor(int row, int col) {
+    unsigned short position = (row * VGA_WIDTH) + col;
+
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (unsigned char)(position & 0xFF));
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
+}
+
+void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
+    VGA_cell* vga_entry = &(vga[row][col]);
+
+    vga_entry->character = c;
+    vga_entry->color = color;
+
+    // Write to VGA memory
+    unsigned short offset = (row * VGA_WIDTH + col) * 2;
+    char* vga_buffer = (char*)0xB8000;
+    vga_buffer[offset] = c;
+    vga_buffer[offset + 1] = color;
+}
 
 void main() {
     unsigned char key;
@@ -11,13 +43,7 @@ void main() {
     int color = 0x07; // set color to white on black
     int row = 0;
     int col = 0;
-    int shift = false;
-
-    write_char_NM('>', color, row, col);
-    col++;
-    write_char_NM(' ', color, row, col);
-    col++;
-    move_cursor(row, col);
+    int shift = false;  
         
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
@@ -39,10 +65,6 @@ void main() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
-                write_char_NM('>', color, row, col);
-                col++;
-                write_char_NM(' ', color, row, col);
-                col++;
                 move_cursor(row, col);
             }
             else if (key == 0x4D) { // check for right arrow key scancode
@@ -63,12 +85,10 @@ void main() {
                     if (shift) {
                         write_char_NM(upper(ascii), color, row, col);
                         col++; // move to the next column
-                        move_cursor(row, col);
                     }
                     else if (!shift) {
                         write_char_NM(ascii, color, row, col);
                         col++; // move to the next column
-                        move_cursor(row, col);
                     }
                 }
                 else if (ascii && ascii == ' ') {
