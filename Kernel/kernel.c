@@ -1,5 +1,6 @@
 #include "core.h"
 #include "vga.h"
+#include "input.h"
 
 char upper(char c) {
     if (c >= 'a' && c <= 'z') {
@@ -41,17 +42,7 @@ void main() {
                     move_cursor(row, col);
                 }
             }
-            else if (key == 0x1C) { // check for the enter key scancode
-                row++;
-                col = 0;
-                move_cursor(row, col);
-            }
-            else if (key == 0x4D) { // check for right arrow key scancode
-                if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
-                    col++;
-                    move_cursor(row, col);
-                }
-            }
+            arrow_keys(key, row, col);
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
             }
