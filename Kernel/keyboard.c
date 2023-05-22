@@ -21,6 +21,14 @@ void handle_keyboard() {
                 case 0x0E:
                 handle_backspace(&row, &col, color);
                 break;
+
+                case 0x4B:
+                handle_left_arrow(&row, &col);
+                break;
+                case 0x4D:
+                handle_right_arrow(&row, &col);
+                break;
+
                 default:
                 handle_characters(&row, &col, color, shift, key, ascii_map, ascii_map_size);
                 break;
