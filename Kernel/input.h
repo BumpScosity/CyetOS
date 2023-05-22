@@ -3,12 +3,12 @@
 
 #include "core.h"
 
-void handle_backspace(CursorPosition *cursor, int color);
-void handle_character(char key, CursorPosition *cursor, int color, bool shift, char ascii_map[59], int ascii_map_size);
-void handle_enter(CursorPosition *cursor);
-void handle_left_arrow(CursorPosition *cursor);
-void handle_right_arrow(CursorPosition *cursor);
-void handle_up_arrow(CursorPosition *cursor);
-void handle_down_arrow(CursorPosition *cursor);
+void handle_backspace(int row, int col, int color);
+void handle_character(char key, int row, int col, int color, bool shift, char *ascii_map, int ascii_map_size);
+void handle_enter(int row, int col);
+void handle_left_arrow(int col);
+void handle_right_arrow(int col);
+void handle_up_arrow(int row);
+void handle_down_arrow(int row);
 
 #endif // INPUT_H
