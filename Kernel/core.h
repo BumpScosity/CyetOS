@@ -5,6 +5,11 @@
 #define false 0
 #define bool int
 
+typedef struct {
+    int row;
+    int col;
+} Cursor_Position;
+
 void outb(unsigned short port, unsigned char value);
 
 #endif // CORE_H 

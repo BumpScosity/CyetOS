@@ -3,7 +3,9 @@
 
 VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
 
-void move_cursor(int row, int col) {
+void move_cursor(Cursor_Position *cursor) {
+    int row = cursor->row;
+    int col = cursor->col;
     unsigned short position = (row * VGA_WIDTH) + col;
 
     outb(0x3D4, 0x0F);
@@ -12,7 +14,9 @@ void move_cursor(int row, int col) {
     outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
 }
 
-void write_char_NM(char c, int color, int row, int col) {
+void write_char_NM(char c, int color, Cursor_Position *cursor) {
+    int row = cursor->row;
+    int col = cursor->col;
     if (row >= 0 && row < VGA_HEIGHT && col >= 0 && col < VGA_WIDTH) {
         VGA_cell* vga_entry = &(vga[row][col]);
 
