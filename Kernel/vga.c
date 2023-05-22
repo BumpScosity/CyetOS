@@ -1,5 +1,7 @@
 #include "vga.h"
 
+VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
+
 void move_cursor(int row, int col) {
     unsigned short position = (row * VGA_WIDTH) + col;
 
