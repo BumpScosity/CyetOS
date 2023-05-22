@@ -31,8 +31,6 @@ void handle_keyboard() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
-                write_char('>', color, row, col);
-                write_char(' ', color, row, col);
                 move_cursor(row, col);
             }
             // ENTER

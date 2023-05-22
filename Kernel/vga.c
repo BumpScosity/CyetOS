@@ -27,6 +27,7 @@ void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means i
     }
 }
 
+/*
 void write_char(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
     if (row >= 0 && row < VGA_HEIGHT && col >= 0 && col < VGA_WIDTH) {
         VGA_cell* vga_entry = &(vga[row][col]);
@@ -42,3 +43,4 @@ void write_char(char c, int color, int row, int col) { // NM(No Move) means it w
         move_cursor(row, col);
     }
 }
+*/
