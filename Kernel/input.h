@@ -3,6 +3,6 @@
 
 #include "core.h"
 
-int handle_input(int row, int col, int color, bool shift, char ascii_map[]);
+void handle_keyboard();
 
 #endif // INPUT_H
