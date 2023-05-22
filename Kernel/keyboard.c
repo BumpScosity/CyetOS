@@ -80,6 +80,9 @@ void handle_keyboard() {
             else if (key < ascii_map_size && key != 0x03) {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
+                    if (col++ < VGA_WIDTH) {
+                        row++;
+                    }
                     if (shift) {
                         write_char_NM(upper(ascii), color, row, col);
                         col++; // move to the next column
