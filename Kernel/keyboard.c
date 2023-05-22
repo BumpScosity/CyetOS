@@ -14,7 +14,9 @@ void handle_keyboard() {
     int col = 0;
     int shift = false;
 
-    write_string("> ", color, row, col);
+    write_char('>', color, row, col);
+    write_char(' ', color, row, col);
+    move_cursor(row, col);
         
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
@@ -25,8 +27,7 @@ void handle_keyboard() {
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
-                    write_char_NM(' ', color, row, col); // overwrite the previous character with a space
-                    move_cursor(row, col);
+                    write_char(' ', color, row, col); // overwrite the previous character with a space
                 }
             }
             // BACKSPACE
@@ -34,7 +35,8 @@ void handle_keyboard() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
-                write_string("> ", color, row, col);
+                write_char('>', color, row, col);
+                write_char(' ', color, row, col);
                 move_cursor(row, col);
             }
             // ENTER
