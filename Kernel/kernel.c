@@ -67,6 +67,7 @@ void main() {
                     move_cursor(row, col);
                 }
             }
+            move_cursor(row, col);
         }
     }
 
