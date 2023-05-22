@@ -23,7 +23,8 @@ void handle_keyboard() {
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
-                    write_char(' ', color, row, col); // overwrite the previous character with a space
+                    write_char_NM(' ', color, row, col); // overwrite the previous character with a space
+                    move_cursor(row, col);
                 }
             }
             // BACKSPACE
@@ -80,12 +81,14 @@ void handle_keyboard() {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
                     if (shift) {
-                        write_char(upper(ascii), color, row, col);
-                        col++; // move to the next column
+                        col++;
+                        write_char_NM(upper(ascii), color, row, col);
+                        move_cursor(row, col);
                     }
                     else if (!shift) {
-                        write_char(ascii, color, row, col);
-                        col++; // move to the next column
+                        col++;
+                        write_char_NM(ascii, color, row, col);
+                        move_cursor(row, col);
                     }
                 }
                 else if (ascii && ascii == ' ') {
@@ -94,6 +97,7 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
+            move_cursor(row, col);
         }
     }
 }
