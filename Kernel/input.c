@@ -3,10 +3,18 @@
 #include "core.h"
 
 int shift_key(unsigned char key) {
-    if (key == 0x2A || key == 0x36) { // shift key pressed
-        return true;
-    }
-    else if (key == 0xAA || key == 0xB6) { // shift key released
-        return false;
+    switch(key) {
+        case 0x2A:
+        return true; break;
+        case 0x36:
+        return true; break;
+
+        case 0xAA:
+        return false; break;
+        case 0xB6:
+        return false; break;
+
+        default:
+        return false; break;
     }
 }
