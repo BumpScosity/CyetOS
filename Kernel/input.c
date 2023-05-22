@@ -4,8 +4,7 @@
 void arrow_keys(unsigned char key, int row, int col) {
     switch(key) {
         case 0x4B:
-        row++;
-        col = 0;
+        col--;
         move_cursor(row, col);
         break;
 
