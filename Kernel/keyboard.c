@@ -23,11 +23,11 @@ void handle_keyboard() {
                 break;
 
                 case 0x4B:
-                handle_arrow(&row, &col, "left");
+                handle_arrow_left(&row, &col);
                 break;
 
                 case 0x4D:
-                handle_arrow(&row, &col, "right");
+                handle_arrow_right(&row, &col);
                 break;
 
                 default:
