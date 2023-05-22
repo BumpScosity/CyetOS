@@ -6,7 +6,6 @@ void outb(unsigned short port, unsigned char value) {
 }
 
 void main() {
-    Cursor_Position cursor = {0, 0};
-    handle_keyboard(&cursor);
+    handle_keyboard();
     return;
 }

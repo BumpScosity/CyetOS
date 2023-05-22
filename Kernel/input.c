@@ -3,33 +3,28 @@
 #include "core.h"
 #include "lib.h"
 
-void handle_backspace(Cursor_Position *cursor, int color) {
-    if (cursor->col > 0) {
-        cursor->col--;
-        write_char_NM(' ', color, cursor);
-        move_cursor(cursor);
-    }
+void handle_backspace(int *row, int *col, int color) {
+    (*col)--; // move back to the previous column
+    write_char(' ', color, *row, *col); // overwrite the previous character with a space
+    move_cursor(*row, *col);
 }
 
-void handle_character(const char key, Cursor_Position *cursor, int color, bool shift, char *ascii_map, int ascii_map_size) {
-    if (key < ascii_map_size && key != 0x03) {
-        char ascii = ascii_map[key];
-        if (ascii && ascii != ' ') {
-            if (shift) {
-                write_char_NM(upper(ascii), color, cursor);
-                cursor->col++;
-                move_cursor(cursor);
-            }
-            else if (!shift) {
-                write_char_NM(ascii, color, cursor);
-                cursor->col++;
-                move_cursor(cursor);
-            }
+void handle_characters(int *row, int *col, int color, 
+ int shift, unsigned char key, const char *ascii_map, const int ascii_map_size) {
+    char ascii = ascii_map[key];
+    if (ascii && ascii != ' ') {
+        if (shift) {
+            write_char(upper(ascii), color, *row, *col);
+            (*col)++; // move to the next column
         }
-        else if (ascii && ascii == ' ') {
-            cursor->col++;
-            write_char_NM(' ', color, cursor);
-            move_cursor(cursor);
+        else if (!shift) {
+            write_char(ascii, color, *row, *col);
+            (*col)++; // move to the next column
         }
+    }
+    else if (ascii && ascii == ' ') {
+        (*col)++;
+        write_char(' ', color, *row, *col);
+        move_cursor(*row, *col);
     }
 }
