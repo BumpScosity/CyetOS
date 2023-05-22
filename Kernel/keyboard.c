@@ -65,6 +65,20 @@ void handle_keyboard() {
             }
             // RIGHT
             // DOWN
+            else if (key == 0x50) {
+                if (row < VGA_HEIGHT - 1) {
+                    row++;
+                    move_cursor(row, col);
+                }
+            }
+            // DOWN
+            // UP
+            else if (key == 0x48) {
+                if (row > 0) {
+                    row--;
+                    move_cursor(row, col);
+                }
+            }
             // UP
             /*ARROW KEYS*/
             else if (key < ascii_map_size && key != 0x03) {
