@@ -1,5 +1,6 @@
 #include "keyboard.h"
 #include "input/input.h"
+#include "core.h"
 
 void handle_keyboard() {
     unsigned char key;
