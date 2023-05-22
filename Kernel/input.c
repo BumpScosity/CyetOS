@@ -3,18 +3,20 @@
 #include "core.h"
 
 int shift_key(unsigned char key) {
+    bool ret = false;
     switch(key) {
         case 0x2A:
-        return true; break;
+        ret = true; break;
         case 0x36:
-        return true; break;
+        ret = true; break;
 
         case 0xAA:
-        return false; break;
+        ret = false; break;
         case 0xB6:
-        return false; break;
+        ret = false; break;
 
         default:
-        return false; break;
+        ret = false; break;
     }
+    return ret;
 }
