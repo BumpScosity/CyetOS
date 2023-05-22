@@ -1,4 +1,5 @@
 #include "vga.h"
+#include "core.h"
 
 VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
 
