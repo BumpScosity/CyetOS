@@ -4,8 +4,8 @@
 #include "lib.h"
 
 void handle_backspace(int *row, int *col, int color) {
-    if (col > 0) {
-        col--;
+    if ((*col) > 0) {
+        (*col)--;
         write_char_NM(' ', color, *row, *col);
         move_cursor(*row, *col);
     }
@@ -17,17 +17,17 @@ void handle_character(const char key, int *row, int *col, int color, bool shift,
         if (ascii && ascii != ' ') {
             if (shift) {
                 write_char_NM(upper(ascii), color, *row, *col);
-                col++;
+                (*col)++;
                 move_cursor(*row, *col);
             }
             else if (!shift) {
                 write_char_NM(ascii, color, *row, *col);
-                col++;
+                (*col)++;
                 move_cursor(*row, *col);
             }
         }
         else if (ascii && ascii == ' ') {
-            col++;
+            (*col)++;
             write_char_NM(' ', color, *row, *col);
             move_cursor(*row, *col);
         }
