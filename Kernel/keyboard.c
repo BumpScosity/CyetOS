@@ -18,65 +18,71 @@ void handle_keyboard() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            if (key == 0x0E) { // check for backspace key scancode
-                if (col > 0) { // make sure there is a character to delete
-                    col--; // move the column back to the previous character position
-                    write_char_NM(' ', color, row, col); // overwrite the previous character with a space
-                    move_cursor(row, col);
-                }
-            }
-            else if (key == 0x4B) { // check for left arrow key scancode
-                if (col > 0) { // make sure there is a character to move back to
-                    col--;
-                    move_cursor(row, col);
-                }
-            }
-            else if (key == 0x1C) { // check for the enter key scancode
-                row++;
-                col = 0;
-                move_cursor(row, col);
-            }
-            else if (key == 0x4D) { // check for right arrow key scancode
-                if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
-                    col++;
-                    move_cursor(row, col);
-                }
-            }
-            else if (key == 0x48) { // check for up arrow key scancode
-                if (row > 0) { // make sure there is a row to move up to
-                    row--;
-                    move_cursor(row, col);
-                }
-            }
-            else if (key == 0x50) { // check for down arrow key scancode
-                if (row < VGA_HEIGHT - 1) { // make sure there is a row to move down to
+            switch (key) {
+                case 0x0E: // backspace key
+                    if (col > 0) {
+                        col--;
+                        write_char_NM(' ', color, row, col);
+                        move_cursor(row, col);
+                    }
+                    break;
+                case 0x4B: // left arrow key
+                    if (col > 0) {
+                        col--;
+                        move_cursor(row, col);
+                    }
+                    break;
+                case 0x1C: // enter key
                     row++;
+                    col = 0;
                     move_cursor(row, col);
-                }
-            }
-            else if (key == 0x2A || key == 0x36) { // shift key pressed
-                shift = true;
-            }
-            else if (key == 0xAA || key == 0xB6) { // shift key released
-                shift = false;
-            }
-            else if (key < ascii_map_size && key != 0x03) {
-                char ascii = ascii_map[key];
-                if (ascii && ascii != ' ') {
-                    if (shift) {
-                        write_char_NM(upper(ascii), color, row, col);
-                        col++; // increment the column to move to the next character position
+                    break;
+                case 0x4D: // right arrow key
+                    if (col < VGA_WIDTH - 1) {
+                        col++;
+                        move_cursor(row, col);
                     }
-                    else if (!shift) {
-                        write_char_NM(ascii, color, row, col);
-                        col++; // increment the column to move to the next character position
+                    break;
+                case 0x48: // up arrow key
+                    if (row > 0) {
+                        row--;
+                        move_cursor(row, col);
                     }
-                }
-                else if (ascii && ascii == ' ') {
-                    col++;
-                    write_char_NM(' ', color, row, col);
-                    move_cursor(row, col);
-                }
+                    break;
+                case 0x50: // down arrow key
+                    if (row < VGA_HEIGHT - 1) {
+                        row++;
+                        move_cursor(row, col);
+                    }
+                    break;
+                case 0x2A: // shift key pressed
+                case 0x36:
+                    shift = true;
+                    break;
+                case 0xAA: // shift key released
+                case 0xB6:
+                    shift = false;
+                    break;
+                default:
+                    if (key < ascii_map_size && key != 0x03) {
+                        char ascii = ascii_map[key];
+                        if (ascii && ascii != ' ') {
+                            if (shift) {
+                                write_char(upper(ascii), color, row, col);
+                                col++;
+                            }
+                            else if (!shift) {
+                                write_char(ascii, color, row, col);
+                                col++;
+                            }
+                        }
+                        else if (ascii && ascii == ' ') {
+                            col++;
+                            write_char_NM(' ', color, row, col);
+                            move_cursor(row, col);
+                        }
+                    }
+                    break;
             }
         }
     }
