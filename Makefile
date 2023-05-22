@@ -15,7 +15,7 @@ BIN = Binaries
 KER = Kernel
 ASM = Assembly
 
-kernel_objects = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/keyboard.o" "$(BIN)/lib.o"
+kernel_objects = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/keyboard.o" "$(BIN)/lib.o" "$(BIN)/input.o"
 
 program:
 	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
@@ -25,6 +25,7 @@ program:
 	$(CC) $(F3) "$(KER)/vga.c" -o "$(BIN)/vga.o"
 	$(CC) $(F3) "$(KER)/keyboard.c" -o "$(BIN)/keyboard.o"
 	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
+	$(CC) $(F3) "$(KER)/input.c" -o "$(BIN)/input.o"
 	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 $(kernel_objects) --oformat binary
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
 
