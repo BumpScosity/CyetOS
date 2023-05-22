@@ -2,7 +2,7 @@
 #include "core.h"
 #include "input.h"
 
-void handle_key_press(unsigned char key, int row, int col, int color, int shift, char *ascii_map, int ascii_map_size) {
+void handle_key_press(unsigned char key, int *row, int *col, int color, int shift, char *ascii_map, int ascii_map_size) {
     switch(key) {
         case 0x0E:
         handle_backspace(row, col, color);
@@ -28,7 +28,7 @@ void handle_keyboard() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            handle_key_press(key, row, col, color, shift, ascii_map, ascii_map_size);
+            handle_key_press(key, &row, &col, color, shift, ascii_map, ascii_map_size);
         }
     }
 }
