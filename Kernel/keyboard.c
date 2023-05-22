@@ -18,8 +18,6 @@ void handle_keyboard() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            /*EXTRA KEYS*/
-            // BACKSPACE
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
@@ -27,60 +25,41 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
-            // BACKSPACE
-            // ENTER
+            else if (key == 0x48) { // check for up arrow key scancode
+                if (row > 0) { // make sure there is a row to move up to
+                    row--; // move up to the previous row
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x50) { // check for down arrow key scancode
+                if (row < VGA_HEIGHT - 1) { // make sure there is a row to move down to
+                    row++; // move down to the next row
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x4B) { // check for left arrow key scancode
+                if (col > 0) { // make sure there is a character to move back to
+                    col--; // move back to the previous column
+                    move_cursor(row, col);
+                }
+            }
             else if (key == 0x1C) { // check for the enter key scancode
-                row++;
-                col = 0;
+                row++; // move to the next row
+                col = 0; // move to the first column of the next row
                 move_cursor(row, col);
             }
-            // ENTER
-            //SHIFT
+            else if (key == 0x4D) { // check for right arrow key scancode
+                if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
+                    col++; // move to the next column
+                    move_cursor(row, col);
+                }
+            }
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
             }
-            // ^ PRESS ^
             else if (key == 0xAA || key == 0xB6) { // shift key released
                 shift = false;
             }
-            // ^ UNPRESS ^
-            //SHIFT
-            /*EXTRA KEYS*/
-
-            /*ARROW KEYS*/
-            // LEFT
-            else if (key == 0x4B) {
-                if (col > 0) {
-                    col--;
-                    move_cursor(row, col);
-                }
-            }
-            // LEFT
-            // RIGHT
-            else if (key == 0x4D) {
-                if (col < VGA_WIDTH - 1) {
-                    col++;
-                    move_cursor(row, col);
-                }
-            }
-            // RIGHT
-            // DOWN
-            else if (key == 0x50) {
-                if (row < VGA_HEIGHT - 1) {
-                    row++;
-                    move_cursor(row, col);
-                }
-            }
-            // DOWN
-            // UP
-            else if (key == 0x48) {
-                if (row > 0) {
-                    row--;
-                    move_cursor(row, col);
-                }
-            }
-            // UP
-            /*ARROW KEYS*/
             else if (key < ascii_map_size && key != 0x03) {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
@@ -94,7 +73,7 @@ void handle_keyboard() {
                     }
                 }
                 else if (ascii && ascii == ' ') {
-                    col++;
+                    col++; // move to the next column
                     write_char_NM(' ', color, row, col);
                     move_cursor(row, col);
                 }
