@@ -2,18 +2,16 @@
 #include "vga.h"
 
 void arrow_keys(unsigned char key, int row, int col) {
-    switch (key) {
-        case 0x4B: // Left arrow key
+    if (key == 0x4B) { // check for left arrow key scancode
+        if (col > 0) { // make sure there is a character to move back to
             col--;
             move_cursor(row, col);
-
-        case 0x4D: // Right arrow key
-            if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
-                col++;
-                move_cursor(row, col);
-            }
-
-        default:
-            break;
+        }
+    }
+    else if (key == 0x4D) { // check for right arrow key scancode
+        if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
+            col++;
+            move_cursor(row, col);
+        }
     }
 }
