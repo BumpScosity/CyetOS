@@ -19,10 +19,11 @@ ASM = Assembly
 program:
 	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
 	$(AA) "$(ASM)/kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
+	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
 	$(CC) $(F3) "$(KER)/kernel.c" -o "$(BIN)/kernel.o"
 	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
-	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
-	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/lib.o" --oformat binary
+	$(CC) $(F3) "(KER)/vga.c" -o "$(BIN)/vga.o"
+	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/lib.o" "$(BIN)/vga.o" --oformat binary
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
 
 kernel:
