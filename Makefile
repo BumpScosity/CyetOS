@@ -22,7 +22,7 @@ program:
 	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
 	$(CC) $(F3) "$(KER)/kernel.c" -o "$(BIN)/kernel.o"
 	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
-	$(CC) $(F3) "(KER)/vga.c" -o "$(BIN)/vga.o"
+	$(CC) $(F3) "$(KER)/vga.c" -o "$(BIN)/vga.o"
 	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/lib.o" "$(BIN)/vga.o" --oformat binary
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
 
