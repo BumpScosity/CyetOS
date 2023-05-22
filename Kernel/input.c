@@ -9,13 +9,9 @@ void handle_backspace(int *row, int *col, int color) {
     move_cursor(*row, *col);
 }
 
-void handle_left_arrow(int *row, int *col) {
-    (*col)--;
-    move_cursor(*row, *col);
-}
-
-void handle_right_arrow(int *row, int *col) {
-    (*col)++;
+void handle_arrow(int *row, int *col, const char* type) {
+    if (strcmp(type, "left") == 0) {(*col)--;}
+    else if (strcmp(type, "right") == 0) {(*col)++;}
     move_cursor(*row, *col);
 }
 
