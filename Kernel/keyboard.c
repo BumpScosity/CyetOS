@@ -30,6 +30,11 @@ void handle_keyboard() {
                 move_cursor(row, col);
                 break;
 
+                case 0x4D:
+                col++;
+                move_cursor(row, col);
+                break;
+
                 default:
                 handle_characters(&row, &col, color, shift, key, ascii_map, ascii_map_size);
                 break;
