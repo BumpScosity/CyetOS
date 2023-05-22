@@ -13,10 +13,6 @@ void handle_keyboard() {
     int row = 0;
     int col = 0;
     int shift = false;
-
-    write_char('>', color, row, col);
-    write_char(' ', color, row, col);
-    move_cursor(row, col);
         
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
