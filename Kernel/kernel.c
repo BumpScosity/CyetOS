@@ -29,6 +29,7 @@ void main() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
+            shift_key(key);
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
@@ -52,12 +53,6 @@ void main() {
                     col++;
                     move_cursor(row, col);
                 }
-            }
-            else if (key == 0x2A || key == 0x36) { // shift key pressed
-                shift = true;
-            }
-            else if (key == 0xAA || key == 0xB6) { // shift key released
-                shift = false;
             }
             else if (key < ascii_map_size && key != 0x03) {
                 char ascii = ascii_map[key];

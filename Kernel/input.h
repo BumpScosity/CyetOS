@@ -1,6 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-void arrow_keys(unsigned char key, int row, int col);
+void shift_key(unsigned char key);
 
 #endif // INPUT_H

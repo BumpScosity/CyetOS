@@ -1,15 +1,12 @@
 #include "input.h"
 #include "vga.h"
+#include "core.h"
 
-void arrow_keys(unsigned char key, int row, int col) {
-    if (key == 0x4B) { // check for left arrow key scancode
-        if (col > 0) { // make sure there is a character to move back to
-            col--;
-            move_cursor(row, col);
+void shift_key(unsigned char key, int shift) {
+    if (key == 0x2A || key == 0x36) { // shift key pressed
+            shift = true;
         }
-    }
-    else if (key == 0x4D) { // check for right arrow key scancode
-        col++;
-        move_cursor(row, col);
+    else if (key == 0xAA || key == 0xB6) { // shift key released
+        shift = false;
     }
 }
