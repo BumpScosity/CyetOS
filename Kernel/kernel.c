@@ -23,7 +23,7 @@ void main() {
     int color = 0x07; // set color to white on black
     int row = 0;
     int col = 0;
-    int shift = false;  
+    bool shift = false;  
         
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
