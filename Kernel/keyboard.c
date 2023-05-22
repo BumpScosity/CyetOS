@@ -35,6 +35,16 @@ void handle_keyboard() {
                 move_cursor(row, col);
             }
             // ENTER
+            //SHIFT
+            else if (key == 0x2A || key == 0x36) { // shift key pressed
+                shift = true;
+            }
+            // ^ PRESS ^
+            else if (key == 0xAA || key == 0xB6) { // shift key released
+                shift = false;
+            }
+            // ^ UNPRESS ^
+            //SHIFT
             /*EXTRA KEYS*/
 
             /*ARROW KEYS*/
@@ -71,12 +81,6 @@ void handle_keyboard() {
             }
             // UP
             /*ARROW KEYS*/
-            else if (key == 0x2A || key == 0x36) { // shift key pressed
-                shift = true;
-            }
-            else if (key == 0xAA || key == 0xB6) { // shift key released
-                shift = false;
-            }
             else if (key < ascii_map_size && key != 0x03) {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
