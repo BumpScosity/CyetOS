@@ -13,44 +13,44 @@ void handle_keyboard() {
     int row = 0;
     int col = 0;
     int shift = false;
-        
+
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
-                    col--; // move back to the previous column
+                    col--; // move the column back to the previous character position
                     write_char_NM(' ', color, row, col); // overwrite the previous character with a space
-                    move_cursor(row, col);
-                }
-            }
-            else if (key == 0x48) { // check for up arrow key scancode
-                if (row > 0) { // make sure there is a row to move up to
-                    row--; // move up to the previous row
-                    move_cursor(row, col);
-                }
-            }
-            else if (key == 0x50) { // check for down arrow key scancode
-                if (row < VGA_HEIGHT - 1) { // make sure there is a row to move down to
-                    row++; // move down to the next row
                     move_cursor(row, col);
                 }
             }
             else if (key == 0x4B) { // check for left arrow key scancode
                 if (col > 0) { // make sure there is a character to move back to
-                    col--; // move back to the previous column
+                    col--;
                     move_cursor(row, col);
                 }
             }
             else if (key == 0x1C) { // check for the enter key scancode
-                row++; // move to the next row
-                col = 0; // move to the first column of the next row
+                row++;
+                col = 0;
                 move_cursor(row, col);
             }
             else if (key == 0x4D) { // check for right arrow key scancode
                 if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
-                    col++; // move to the next column
+                    col++;
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x48) { // check for up arrow key scancode
+                if (row > 0) { // make sure there is a row to move up to
+                    row--;
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x50) { // check for down arrow key scancode
+                if (row < VGA_HEIGHT - 1) { // make sure there is a row to move down to
+                    row++;
                     move_cursor(row, col);
                 }
             }
@@ -65,15 +65,15 @@ void handle_keyboard() {
                 if (ascii && ascii != ' ') {
                     if (shift) {
                         write_char_NM(upper(ascii), color, row, col);
-                        col++; // move to the next column
+                        col++; // increment the column to move to the next character position
                     }
                     else if (!shift) {
                         write_char_NM(ascii, color, row, col);
-                        col++; // move to the next column
+                        col++; // increment the column to move to the next character position
                     }
                 }
                 else if (ascii && ascii == ' ') {
-                    col++; // move to the next column
+                    col++;
                     write_char_NM(' ', color, row, col);
                     move_cursor(row, col);
                 }
