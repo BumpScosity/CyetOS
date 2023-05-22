@@ -4,19 +4,11 @@
 
 int shift_key(unsigned char key) {
     bool ret = false;
-    switch(key) {
-        case 0x2A:
-        ret = true; break;
-        case 0x36:
-        ret = true; break;
-
-        case 0xAA:
-        ret = false; break;
-        case 0xB6:
-        ret = false; break;
-
-        default:
-        ret = false; break;
+    if (key == 0x2A || key == 0x36) { // shift key pressed
+        ret = true;
+    }
+    else if (key == 0xAA || key == 0xB6) { // shift key released
+        ret = false;
     }
     return ret;
 }
