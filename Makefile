@@ -13,12 +13,14 @@ F3 = -fno-pic -m32 -ffreestanding -g -c
 F4 = -m elf_i386 -o
 
 BIN = Binaries
+KER = Kernel
+ASM = Assembly
 
 program:
-	$(AA) "boot.asm" $(F1) "$(BIN)/boot.bin"
-	$(AA) "kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
-	$(CC) $(F3) "kernel.c" -o "$(BIN)/kernel.o"
-	$(AA) "zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
+	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
+	$(AA) "$(ASM)/kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
+	$(CC) $(F3) "$(C)/kernel.c" -o "$(BIN)/kernel.o"
+	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
 	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x1000 "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" --oformat binary
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
 

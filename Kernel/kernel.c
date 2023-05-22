@@ -1,26 +1,7 @@
-#define VGA_WIDTH 80
-#define VGA_HEIGHT 25
-#define true 1
-#define false 0
-
-typedef struct {
-    char character;
-    int color;
-} VGA_cell;
+#include "kernel.h"
+#include "lib.h"
 
 VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
-
-char upper(char c) {
-    if (c >= 'a' && c <= 'z') {
-        return c - ('a' - 'A');
-    } else {
-        return c;
-    }
-}
-
-void outb(unsigned short port, unsigned char value) {
-    asm volatile ("outb %0, %1" : : "a" (value), "Nd" (port));
-}
 
 void move_cursor(int row, int col) {
     unsigned short position = (row * VGA_WIDTH) + col;

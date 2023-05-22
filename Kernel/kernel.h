@@ -6,8 +6,4 @@
 #define true 1
 #define false 0
 
-#include "stdlib.h"
-
-
-
 #endif // KERNEL_H 
