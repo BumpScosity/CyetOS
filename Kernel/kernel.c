@@ -1,5 +1,7 @@
 #include "kernel.h"
 
+VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
+
 char upper(char c) {
     if (c >= 'a' && c <= 'z') {
         return c - ('a' - 'A');
