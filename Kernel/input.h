@@ -1,8 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "core.h"
-
-void shift_key(unsigned char key, bool shift);
+int shift_key(unsigned char key);
 
 #endif // INPUT_H
