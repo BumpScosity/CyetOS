@@ -16,7 +16,7 @@ BIN = Binaries
 KER = Kernel
 ASM = Assembly
 
-kernel_objects = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/input.o" "$(BIN)/keyboard.o" "$(BIN/lib.o)"
+kernel_objects = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/input.o" "$(BIN)/keyboard.o" "$(BIN)/lib.o"
 
 program:
 	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
