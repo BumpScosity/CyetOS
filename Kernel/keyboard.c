@@ -68,11 +68,11 @@ void handle_keyboard() {
                         char ascii = ascii_map[key];
                         if (ascii && ascii != ' ') {
                             if (shift) {
-                                write_char(upper(ascii), color, row, col);
+                                write_char_NM(upper(ascii), color, row, col);
                                 col++;
                             }
                             else if (!shift) {
-                                write_char(ascii, color, row, col);
+                                write_char_NM(ascii, color, row, col);
                                 col++;
                             }
                         }
