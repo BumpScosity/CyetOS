@@ -62,6 +62,14 @@ void handle_keyboard() {
                 }
             }
             // DOWN
+            // UP
+            else if (key == 0x48) {
+                if (row > 0) {
+                    row--;
+                    move_cursor(row, col);
+                }
+            }
+            // UP
             /*ARROW KEYS*/
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
