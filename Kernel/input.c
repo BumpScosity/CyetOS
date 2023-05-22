@@ -4,7 +4,7 @@
 #include "lib.h"
 
 void handle_backspace(int *row, int *col, int color) {
-    if (col > 0) {
+    if (*col > 0) {
         (*col)--;
         write_char_NM(' ', color, *row, *col);
         move_cursor(*row, *col);
@@ -32,4 +32,24 @@ void handle_character(const char key, int *row, int *col, int color, bool shift,
             move_cursor(*row, *col);
         }
     }
+}
+
+void handle_enter(int *row, int *col) {
+    // Handle the enter key press here
+}
+
+void handle_left_arrow(int *col) {
+    // Handle the left arrow key press here
+}
+
+void handle_right_arrow(int *col) {
+    // Handle the right arrow key press here
+}
+
+void handle_up_arrow(int *row) {
+    // Handle the up arrow key press here
+}
+
+void handle_down_arrow(int *row) {
+    // Handle the down arrow key press here
 }
