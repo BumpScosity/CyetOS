@@ -4,10 +4,8 @@
 void arrow_keys(unsigned char key, int row, int col) {
     switch (key) {
         case 0x4B: // Left arrow key
-            if (col > 0) { // make sure there is a character to move back to
-                col--;
-                move_cursor(row, col);
-            }
+            col--;
+            move_cursor(row, col);
             break;
 
         case 0x4D: // Right arrow key
