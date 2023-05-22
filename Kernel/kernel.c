@@ -29,7 +29,7 @@ void main() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            shift_key(key);
+            shift_key(key, shift);
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column

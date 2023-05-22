@@ -2,7 +2,7 @@
 #include "vga.h"
 #include "core.h"
 
-void shift_key(unsigned char key, int shift) {
+void shift_key(unsigned char key, bool shift) {
     if (key == 0x2A || key == 0x36) { // shift key pressed
             shift = true;
         }
