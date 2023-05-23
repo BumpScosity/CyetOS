@@ -18,7 +18,6 @@ IN = Kernel/input
 ASM = Assembly
 
 program:
-	$(call build_input)
 	$(call build_kernel)
 	$(call build_loader)
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
@@ -37,7 +36,7 @@ define build_input
 	$(LL) $(F5) "$(BIN)/input.o" $(input_links)
 endef
 
-kernel_links = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/keyboard.o" "$(BIN)/lib.o" "$(BIN)/input.o"
+kernel_links = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/keyboard.o" "$(BIN)/lib.o"
 define build_kernel
 	$(AA) "$(ASM)/kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
 	$(CC) $(F3) "$(KER)/kernel.c" -o "$(BIN)/kernel.o"
