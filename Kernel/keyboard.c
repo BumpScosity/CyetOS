@@ -1,7 +1,6 @@
 #include "keyboard.h"
 #include "input/input.h"
 #include "core.h"
-#include "vga.h"
 
 void handle_keyboard() {
     unsigned char key;
@@ -18,26 +17,11 @@ void handle_keyboard() {
         __asm__("inb $0x64, %0" : "=a" (key));
         if (key & 0x01) { // check bit 0 of the status byte to see if a key has been pressed
             __asm__("inb $0x60, %0" : "=a" (key));
-            switch(key) {
-                case 0x0E:
-                col--;
-                write_char(' ', color, row, col);
-                move_cursor(row, col);
-                break;
-
-                case 0x4B:
-                col--;
-                move_cursor(row, col);
-                break;
-
-                case 0x4D:
-                col++;
-                move_cursor(row, col);
-                break;
-
-                default:
+            if (key == 0x0E) {
+                handle_backspace(&row, &col, color);
+            }
+            else {
                 handle_characters(&row, &col, color, shift, key, ascii_map, ascii_map_size);
-                break;
             }
         }
     }

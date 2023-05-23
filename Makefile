@@ -17,12 +17,14 @@ KER = Kernel
 IN = Kernel/input
 ASM = Assembly
 
+setup:
+	rm "Binaries/REMOVE_ME"
+	rm "Kernel/input/bin/REMOVE_ME"
+
 program:
-	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
-	$(AA) "$(ASM)/kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
-	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
 	$(call build_input)
 	$(call build_kernel)
+	$(call build_loader)
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
 
 start:
@@ -36,9 +38,15 @@ endef
 
 kernel_links = "$(BIN)/kernel_entry.o" "$(BIN)/kernel.o" "$(BIN)/vga.o" "$(BIN)/keyboard.o" "$(BIN)/lib.o" "$(BIN)/input.o"
 define build_kernel
+	$(AA) "$(ASM)/kernel_entry.asm" $(F2) "$(BIN)/kernel_entry.o"
 	$(CC) $(F3) "$(KER)/kernel.c" -o "$(BIN)/kernel.o"
 	$(CC) $(F3) "$(KER)/vga.c" -o "$(BIN)/vga.o"
 	$(CC) $(F3) "$(KER)/keyboard.c" -o "$(BIN)/keyboard.o"
 	$(CC) $(F3) "$(KER)/lib.c" -o "$(BIN)/lib.o"
 	$(LL) $(F4) "$(BIN)/full_kernel.bin" -Ttext 0x9000 $(kernel_links) --oformat binary
+endef
+
+define build_loader
+	$(AA) "$(ASM)/boot.asm" $(F1) "$(BIN)/boot.bin"
+	$(AA) "$(ASM)/zeroes.asm" $(F1) "$(BIN)/zeroes.bin"
 endef
