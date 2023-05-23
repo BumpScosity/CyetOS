@@ -1,4 +1,4 @@
-#include "input.h"
+/*#include "input.h"
 #include "../vga.h"
 #include "../lib.h"
 
@@ -22,4 +22,4 @@ void handle_characters(int *row, int *col, int color,
         write_char(' ', color, *row, *col);
         move_cursor(*row, *col);
     }
-}
+}*/
