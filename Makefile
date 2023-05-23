@@ -30,9 +30,10 @@ program:
 start:
 	$(QQ) $(QQF1)file="$(BIN)/OS.bin"$(QQF2)
 
-input_links = "$(IN)/bin/characters.o"
+input_links = "$(IN)/bin/characters.o" "$(IN)/bin/backspace.o"
 define build_input
 	$(CC) $(F3) "$(IN)/characters.c" -o "$(IN)/bin/characters.o"
+	$(CC) (F3) "$(IN)/backspace.c" -p "$(IN)/bin/backspace.o"
 	$(LL) $(F5) "$(BIN)/input.o" $(input_links)
 endef
 
