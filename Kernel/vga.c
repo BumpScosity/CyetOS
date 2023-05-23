@@ -12,7 +12,7 @@ void move_cursor(int row, int col) {
     outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
 }
 
-void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
+void write_char(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
     VGA_cell* vga_entry = &(vga[row][col]);
 
     vga_entry->character = c;
