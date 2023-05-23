@@ -17,15 +17,15 @@ KER = Kernel
 IN = Kernel/input
 ASM = Assembly
 
-setup:
-	rm "Binaries/REMOVE_ME"
-	rm "Kernel/input/bin/REMOVE_ME"
-
 program:
 	$(call build_input)
 	$(call build_kernel)
 	$(call build_loader)
 	cat "$(BIN)/boot.bin" "$(BIN)/full_kernel.bin" "$(BIN)/zeroes.bin"  > "$(BIN)/OS.bin"
+
+setup:
+	rm "Binaries/REMOVE_ME"
+	rm "Kernel/input/bin/REMOVE_ME"
 
 start:
 	$(QQ) $(QQF1)file="$(BIN)/OS.bin"$(QQF2)
@@ -33,7 +33,7 @@ start:
 input_links = "$(IN)/bin/characters.o" "$(IN)/bin/backspace.o"
 define build_input
 	$(CC) $(F3) "$(IN)/characters.c" -o "$(IN)/bin/characters.o"
-	$(CC) (F3) "$(IN)/backspace.c" -p "$(IN)/bin/backspace.o"
+	$(CC) $(F3) "$(IN)/backspace.c" -p "$(IN)/bin/backspace.o"
 	$(LL) $(F5) "$(BIN)/input.o" $(input_links)
 endef
 
