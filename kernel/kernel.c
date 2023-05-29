@@ -72,16 +72,27 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
-            else if (key == 0x1C) { // check for the enter key scancode
-                row++;
-                col = 0;
-                move_cursor(row, col);
-            }
             else if (key == 0x4D) { // check for right arrow key scancode
                 if (col < VGA_WIDTH - 1) { // make sure there is a character to move forward to
                     col++;
                     move_cursor(row, col);
                 }
+            }
+            else if (key == 0x48) { // check for the up arrow key scancode
+                if (row > 0) {
+                    row--;
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x50) { // check for the down arrow key scancode
+                if (row < VGA_HEIGHT) {
+                    row++;
+                    move_cursor(row, col);
+                }
+            }
+            else if (key == 0x1C) { // check for the enter key scancode
+                row++;
+                col = 0;
             }
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
