@@ -1,48 +1,6 @@
-#define VGA_WIDTH 80
-#define VGA_HEIGHT 25
-#define true 1
-#define false 0
-
-typedef struct {
-    char character;
-    int color;
-} VGA_cell;
-
-VGA_cell vga[VGA_HEIGHT][VGA_WIDTH];
-
-char upper(char c) {
-    if (c >= 'a' && c <= 'z') {
-        return c - ('a' - 'A');
-    } else {
-        return c;
-    }
-}
-
-void outb(unsigned short port, unsigned char value) {
-    asm volatile ("outb %0, %1" : : "a" (value), "Nd" (port));
-}
-
-void move_cursor(int row, int col) {
-    unsigned short position = (row * VGA_WIDTH) + col;
-
-    outb(0x3D4, 0x0F);
-    outb(0x3D5, (unsigned char)(position & 0xFF));
-    outb(0x3D4, 0x0E);
-    outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
-}
-
-void write_char_NM(char c, int color, int row, int col) { // NM(No Move) means it will not move the cursor
-    VGA_cell* vga_entry = &(vga[row][col]);
-
-    vga_entry->character = c;
-    vga_entry->color = color;
-
-    // Write to VGA memory
-    unsigned short offset = (row * VGA_WIDTH + col) * 2;
-    char* vga_buffer = (char*)0xB8000;
-    vga_buffer[offset] = c;
-    vga_buffer[offset + 1] = color;
-}
+#include "lib.h"
+#include "kernel.h"
+#include "vga.h"
 
 void handle_keyboard() {
     unsigned char key;
@@ -54,11 +12,7 @@ void handle_keyboard() {
     int row = 0;
     int col = 0;
     int shift = false;
-    write_char_NM('>', color, row, col);
-    col++;
-    write_char_NM(' ', color, row, col);
-    col++;
-    move_cursor(row, col);
+    write_string("> ", color, row, &col);
 
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
@@ -98,11 +52,7 @@ void handle_keyboard() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
-                write_char_NM('>', color, row, col);
-                col++;
-                write_char_NM(' ', color, row, col);
-                col++;
-                move_cursor(row, col);
+                write_string("> ", color, row, &col);
             }
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
