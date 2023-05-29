@@ -8,6 +8,7 @@ ifeq "$(disk)" ""
 else
     rm os.iso
     $(call build_os)
+endif
 
 define build_os
     $(call build_kernel)
