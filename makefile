@@ -2,13 +2,13 @@ CC = i386-elf-gcc
 LD = i386-elf-ld
 
 build:
-disk := $(wildcard os.iso)
-ifeq "$(disk)" ""
-    $(call build_os)
-else
-    rm os.iso
-    $(call build_os)
-endif
+    disk := $(wildcard os.iso)
+    ifeq "$(disk)" ""
+        $(call build_os)
+    else
+        rm os.iso
+        $(call build_os)
+    endif
 
 define build_os
     $(call build_kernel)
