@@ -54,6 +54,11 @@ void handle_keyboard() {
     int row = 0;
     int col = 0;
     int shift = false;
+    write_char_NM('>', color, row, col);
+    col++;
+    write_char_NM(' ', color, row, col);
+    col++;
+    move_cursor(row, col);
 
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
@@ -85,7 +90,7 @@ void handle_keyboard() {
                 }
             }
             else if (key == 0x50) { // check for the down arrow key scancode
-                if (row < VGA_HEIGHT) {
+                if (row < VGA_HEIGHT-1) {
                     row++;
                     move_cursor(row, col);
                 }
@@ -93,6 +98,10 @@ void handle_keyboard() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
+                write_char_NM('>', color, row, col);
+                col++;
+                write_char_NM(' ', color, row, col);
+                col++;
                 move_cursor(row, col);
             }
             else if (key == 0x2A || key == 0x36) { // shift key pressed
