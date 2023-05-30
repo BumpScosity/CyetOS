@@ -53,14 +53,13 @@ void write_string_NM(const char* str, int color, int *row, int *col, cmds line) 
         str++;
         (*col)++;
     }
-
-    move_cursor(*row, *col);
 }
 
 void write_string(const char* str, int color, int *row, int *col, cmds line) {
     while (*str != '\0') {
         write_char_NM(*str, color, row, col, line);
         str++;
+        (*col)++;
     }
 
     move_cursor(*row, *col);
