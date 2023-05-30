@@ -55,9 +55,8 @@ void handle_keyboard() {
             }
             */
             else if (key == 0x1C) { // check for the enter key scancode
-                row++;
                 col = 0;
-                parse(lines, &row-1, &col);
+                parse(lines, &row, &col);
             }
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
