@@ -25,7 +25,7 @@ void handle_keyboard() {
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
-                    write_char(' ', color, &row, &col, lines[col]); // overwrite the previous character with a space
+                    write_char_NM(' ', color, &row, &col, lines[col]); // overwrite the previous character with a space
                 }
             }
             else if (key == 0x4B) { // check for left arrow key scancode
@@ -70,13 +70,10 @@ void handle_keyboard() {
                         write_char(upper(ascii), color, &row, &col, lines[row]);
                     }
                     else if (!shift) {
-                        write_char_NM(ascii, color, &row, &col, lines[row]);
-                        col++; // move to the next column
-                        move_cursor(row, col);
+                        write_char(ascii, color, &row, &col, lines[row]);
                     }
                 }
                 else if (ascii && ascii == ' ') {
-                    col++;
                     write_char(' ', color, &row, &col, lines[row]);
                 }
             }

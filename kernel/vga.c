@@ -27,7 +27,6 @@ void write_char_NM(char c, int color, int *row, int *col, cmds line) { // NM(No 
     char* vga_buffer = (char*)0xB8000;
     vga_buffer[offset] = c;
     vga_buffer[offset + 1] = color;
-    (*col)++;
 }
 
 void write_char(char c, int color, int *row, int *col, cmds line) { // NM(No Move) means it will not move the cursor

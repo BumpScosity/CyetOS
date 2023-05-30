@@ -26,7 +26,7 @@ int cmpstr(const char* str1, const char* str2) {
     }
     // Check if both strings have reached the end
     if (str1[i] == '\0' && str2[i] == '\0') {
-        return 1; // Strings are equal
+        return 0; // Strings are equal
     }
-    return 0; // Strings have different lengths
+    return 1; // Strings have different lengths
 }
