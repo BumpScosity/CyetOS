@@ -6,6 +6,7 @@
 void move_cursor(int row, int col);
 void write_char_NM(char c, int color, int *row, int *col, cmds lines);
 void write_char(char c, int color, int *row, int *col, cmds lines);
-void write_string(const char* str, int color, int *row, int *col, cmds lines[VGA_HEIGHT]);
+void write_string(const char* str, int color, int *row, int *col, cmds line);
+void write_string_NM(const char* str, int color, int *row, int *col, cmds line);
 
 #endif // VGA_H

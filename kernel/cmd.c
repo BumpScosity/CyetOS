@@ -10,7 +10,8 @@ void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
         case 'h':
             cmd++;
             if (*cmd == 'e') {cmd++; if (*cmd == 'l') {cmd++; if (*cmd == 'p') {
-                write_string("Balls", 0x07, row, col, lines);
+                write_string_NM("Balls", 0x07, row, col, lines[*row-1]);
+                move_cursor(*row, *col);
             }}}
 
         default:
@@ -18,5 +19,5 @@ void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
     }
 
     (*row)++;
-    write_string("> ", 0x07, row, col, lines);
+    write_string("> ", 0x07, row, col, lines[*row-1]);
 }
