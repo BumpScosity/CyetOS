@@ -3,13 +3,20 @@
 #include "vga.h"
 
 void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
-    const char *cmd = lines[*row-1].line;
+    char *cmd = lines[*row-1].line;
     cmd++; cmd++;
-    
-    if (cmpstr(cmd, "help") == 0) {
-        write_string("Help | Provides a list of commands", 0x07, row, col, lines);
+
+    switch (*cmd) {
+        case 'h':
+            cmd++;
+            if (*cmd == 'e') {cmd++; if (*cmd == 'l') {cmd++; if (*cmd == 'p') {
+                write_string("Balls", 0x07, row, col, lines);
+            }}}
+
+        default:
+            break;
     }
 
     (*row)++;
-    move_cursor(*row, *col);
+    write_string("> ", 0x07, row, col, lines);
 }
