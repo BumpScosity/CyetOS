@@ -9,11 +9,20 @@ void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
 
     switch (*cmd) {
         case 'h':
-            break;
+            cmd++;
+            if (*cmd == 'e') {
+                cmd++;
+                if (*cmd == 'l') {
+                    cmd++;
+                    if (*cmd == 'p') {
+                        (*row)++;
+                        write_string("Test", 0x07, row, col, lines[*row]);
+                    }
+                }
+            }
         default:
             (*row)++;
-            write_string_NM("> ", 0x07, row, col, lines[*row]);
-            write_char(*cmd, 0x07, row, col, lines[*row]);
+            write_string("> ", 0x07, row, col, lines[*row]);
             break;
     }
 }
