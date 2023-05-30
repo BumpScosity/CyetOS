@@ -40,6 +40,7 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
+            /*
             else if (key == 0x48) { // check for the up arrow key scancode
                 if (row > 0) {
                     row--;
@@ -52,6 +53,7 @@ void handle_keyboard() {
                     move_cursor(row, col);
                 }
             }
+            */
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
