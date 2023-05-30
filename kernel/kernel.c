@@ -1,6 +1,7 @@
 #include "lib.h"
 #include "kernel.h"
 #include "vga.h"
+#include "cmd.h"
 
 void handle_keyboard() {
     unsigned char key;
@@ -12,7 +13,10 @@ void handle_keyboard() {
     int row = 0;
     int col = 0;
     int shift = false;
-    write_string("> ", color, row, &col);
+
+    cmds lines[VGA_HEIGHT];
+
+    write_string("> ", color, &row, &col, lines);
 
     while (1) {
         __asm__("inb $0x64, %0" : "=a" (key));
@@ -21,8 +25,7 @@ void handle_keyboard() {
             if (key == 0x0E) { // check for backspace key scancode
                 if (col > 0) { // make sure there is a character to delete
                     col--; // move back to the previous column
-                    write_char_NM(' ', color, row, col); // overwrite the previous character with a space
-                    move_cursor(row, col);
+                    write_char(' ', color, &row, &col, lines[col]); // overwrite the previous character with a space
                 }
             }
             else if (key == 0x4B) { // check for left arrow key scancode
@@ -52,7 +55,7 @@ void handle_keyboard() {
             else if (key == 0x1C) { // check for the enter key scancode
                 row++;
                 col = 0;
-                write_string("> ", color, row, &col);
+                parse(lines, &row-1, &col);
             }
             else if (key == 0x2A || key == 0x36) { // shift key pressed
                 shift = true;
@@ -64,20 +67,17 @@ void handle_keyboard() {
                 char ascii = ascii_map[key];
                 if (ascii && ascii != ' ') {
                     if (shift) {
-                        write_char_NM(upper(ascii), color, row, col);
-                        col++; // move to the next column
-                        move_cursor(row, col);
+                        write_char(upper(ascii), color, &row, &col, lines[row]);
                     }
                     else if (!shift) {
-                        write_char_NM(ascii, color, row, col);
+                        write_char_NM(ascii, color, &row, &col, lines[row]);
                         col++; // move to the next column
                         move_cursor(row, col);
                     }
                 }
                 else if (ascii && ascii == ' ') {
                     col++;
-                    write_char_NM(' ', color, row, col);
-                    move_cursor(row, col);
+                    write_char(' ', color, &row, &col, lines[row]);
                 }
             }
         }
