@@ -3,7 +3,6 @@
 #include "vga.h"
 
 void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
-    (*row)++;
     char *cmd = lines[*row].line;
     cmd++;
     cmd++;
@@ -12,10 +11,9 @@ void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
         case 'h':
             break;
         default:
+            (*row)++;
+            write_string("> ", 0x07, row, col, lines[*row]);
+            write_char(*cmd, 0x07, row, col, lines[*row]);
             break;
     }
-
-    (*row)++;
-    write_string("> ", 0x07, row, col, lines[*row]);
-    write_char(*cmd, 0x07, row, col, lines[*row]);
 }
