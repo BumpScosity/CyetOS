@@ -6,6 +6,7 @@ void parse(cmds lines[VGA_HEIGHT], int *row, int *col) {
     char *cmd = lines[*row].line;
     cmd++;
     cmd++;
+    cmd++;
 
     (*row)++;
 
