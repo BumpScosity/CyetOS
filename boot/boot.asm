@@ -6,6 +6,17 @@ KERNEL_LOCATION equ 0x7ef0
 _main16:
 	;save boot disk number
 	mov [BOOT_DISK], dl
+	mov [0x5500], dl
+
+	mov ah, 0x04   ; Set AH to 0x04 to indicate the "Get Date" function
+	int 0x1A       ; Call the BIOS interrupt
+
+	mov bx, dx     ; Save the year in BX
+	shr dx, 8      ; Shift the month value to the lower byte
+	mov bh, dl     ; Save the month in BH
+	mov bl, dh     ; Save the day of the month in BL
+
+	mov dl, byte [0x5500]
 
 	;set up segment registers
 	cli
