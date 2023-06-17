@@ -40,7 +40,7 @@ int disk_read(const char* name, void* data) {
 }
 
 // Function to write data to disk using name
-int disk_write(const char* name, const void* data, uint16_t count) {
+int disk_write(const char* name, void* data, uint16_t count) {
     // Find the entry in the hashtable
     for (uint32_t i = 0; i < num_entries; i++) {
         if (strcmp(hashtable[i].name, name) == 0) {
