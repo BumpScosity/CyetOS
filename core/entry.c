@@ -138,7 +138,7 @@ void entry() {
     x = 23;
     title("ENTRY");
 
-    kprintLC("Welcome to CyetOS!", 2, 1, 0x9F);
+    kprintLC("Welcome to OnyxOS!", 2, 1, 0x9F);
     kprintLC("Hit F5 to enter the shell at any time.", 4, 1, 0x9F);
     kprintLC("You can as well hit F6 to return to this menu at any time.", 5, 1, 0x9F);
 
