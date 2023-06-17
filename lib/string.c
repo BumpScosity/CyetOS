@@ -48,7 +48,7 @@ void reverseString(char* str, int length) {
 }
 
 char* intToString(int num) {
-    char *str;
+    char *str = "\0";
     int index = 0;
     int temp;
 
@@ -79,4 +79,26 @@ char* intToString(int num) {
     }
 
     return str;
+}
+
+char* strncpy(char* dest, const char* src, size_t n) {
+    char* destStart = dest;
+    while (*src && n > 0) {
+        *dest++ = *src++;
+        n--;
+    }
+    while (n > 0) {
+        *dest++ = '\0';
+        n--;
+    }
+    return destStart;
+}
+
+int strcmp(const char* str1, const char* str2) {
+    while (*str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+    }
+
+    return *(unsigned char*)str1 - *(unsigned char*)str2;
 }

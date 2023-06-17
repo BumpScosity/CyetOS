@@ -1,5 +1,4 @@
-#ifndef CMD_H
-#define CMD_H
+#pragma once
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
@@ -12,11 +11,7 @@ typedef struct {
 void parse(const char *line);
 
 void clear();
-void dir();
 void help();
 void echo(const char *s);
 void shutdown(const char *emulator);
 void reboot();
-
-
-#endif // CMD_H

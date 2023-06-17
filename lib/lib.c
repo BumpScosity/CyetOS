@@ -66,3 +66,22 @@ char lower(char c) {
         return c; // Return as-is if not an uppercase letter
     }
 }
+
+void sleep (int ticks){
+    int timer_ticks = 0;
+    int seconds = 0;
+	while (timer_ticks > ticks) {
+		/* Increment our 'tick count' */
+		timer_ticks++;
+	
+
+		if (timer_ticks % 18 == 0)
+		{
+			seconds++;
+			//kprint(toString(seconds, 10));
+		}
+	}
+	timer_ticks = 0;
+	seconds = 0;
+    return;
+}

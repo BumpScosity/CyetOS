@@ -1,5 +1,7 @@
-#include "../lib/lib.h"
 #include "../drivers/screen/vga.h"
+#include "../kernel/port_io.h"
+#include "../memory/dynamic.h"
+#include "../lib/lib.h"
 
 #include "cmd.h"
 
@@ -20,11 +22,13 @@
 /* Check if bit n in flags is set */
 #define check_flag(flags, n) ((flags) & bit(n))
 
-/*NOTE: CODE TAKEN FROM https://wiki.osdev.org/Reboot,
-    NOT MY CODE, I AIN'T GONNA WRITE IT MYSELF*/
+/*
+* NOTE: CODE TAKEN FROM https://wiki.osdev.org/Reboot,
+* NOT MY CODE, I AIN'T GONNA WRITE IT MYSELF
+*/
 
 void reboot()
-{
+{   
     unsigned int temp;
  
     asm volatile ("cli"); /* disable all interrupts */

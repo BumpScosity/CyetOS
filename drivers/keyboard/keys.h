@@ -1,5 +1,4 @@
-#ifndef KEYS_H
-#define KEYS_H
+#pragma once
 
 #include "../../shell/cmd.h"
 #include "../screen/vga.h"
@@ -10,6 +9,7 @@
 #define UP_ARROW 0x48
 #define DOWN_ARROW 0x50
 #define ENTER 0x1C
+#define ESCAPE 0x5A
 
 #define SHIFT_LEFT_HOLD 0x2A
 #define SHIFT_LEFT_RELEASE 0xAA
@@ -26,5 +26,3 @@ void left_arrow(int *pos);
 void right_arrow(int *pos);
 
 void enter(char line[256]);
-
-#endif // KEYS_H

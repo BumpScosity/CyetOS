@@ -1,3 +1,4 @@
+#include "../../memory/dynamic.h"
 #include "../screen/vga.h"
 #include "../screen/vram.h"
 #include "../../shell/cmd.h"
@@ -7,7 +8,7 @@
 #include "keys.h"
 
 void left_arrow(int *pos) {
-    int *rc = (int*)0x99900;
+    int *rc = kget("rc");
     if (rc[1] > 3) { // make sure there is a character to move back to
         rc[1]--;
         move_cursor(rc[0], rc[1]);
@@ -16,7 +17,7 @@ void left_arrow(int *pos) {
 }
 
 void right_arrow(int *pos) {
-    int *rc = (int*)0x99900;
+    int *rc = kget("rc");
     if (rc[1] < VGA_WIDTH - 1) { // make sure there is a character to move back to
         rc[1]++;
         move_cursor(rc[0], rc[1]);
@@ -25,8 +26,8 @@ void right_arrow(int *pos) {
 }
 
 void enter(char line[256]) {
-    int *xy = (int*)0x99000;
-    int *rc = (int*)0x99900;
+    int *xy = kget("xy");
+    int *rc = kget("rc");
     for (int i = 1; i < 79; i++) {
         draw_pixel(23, i, 0x07);
     }
@@ -41,8 +42,9 @@ void enter(char line[256]) {
 }
 
 void ascii(unsigned char key, int shift, const char ascii_map[], char line[256], int *pos) {
-    int *xy = (int*)0x99000;
-    int *rc = (int*)0x99900;
+    int *xy = kget("xy");
+    int *rc = kget("rc");
+
     int x = xy[0];
     int y = xy[1];
     xy[0] = rc[0];

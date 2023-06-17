@@ -1,5 +1,4 @@
-#ifndef TYPEDEF_H
-#define TYPEDEF_H
+#pragma once
 
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
@@ -16,5 +15,3 @@ typedef unsigned long size_t;
 #define high_8(address) (uint8_t)(((address) >> 8) & 0xFF)
 
 #define NULL (void*)0
-
-#endif // TYPEDEF_H

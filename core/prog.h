@@ -1,5 +1,4 @@
-#ifndef PROG_H
-#define PROG_H
+#pragma once
 
 void title(const char *title);
 void screen1(const char *name);
@@ -8,7 +7,6 @@ void screen2();
 void shell();
 
 void meminfo();
-void time();
+void driveinfo();
+void drivetest();
 void entry();
-
-#endif // PROG_H

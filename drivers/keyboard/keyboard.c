@@ -3,6 +3,7 @@
 #include "../../lib/lib.h"
 #include "../../shell/cmd.h"
 #include "../../core/prog.h"
+#include "../../memory/dynamic.h"
 
 #include "keyboard.h"
 #include "keys.h"
@@ -17,14 +18,16 @@ const char ascii_map[] = {
 const int ascii_map_size = sizeof(ascii_map) / sizeof(ascii_map[0]);
 
 void handle_keyboard() {
-    int *rc = (int*)0x99900;
+    int *rc = kget("rc");
 
     unsigned char key;
-    int color = 0x07; // set color to white on black
-    int row, col;
     int shift = false;
     char line[256];
     int pos = 0;
+
+    rc[0] = 23;
+    rc[1] = 3;
+    move_cursor(rc[0], rc[1]);
 
     while (1) {
         key = getch();

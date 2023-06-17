@@ -1,0 +1,40 @@
+// Floppy drivers were taken from MellOs and modifed to work with my system
+// These floppy drivers are not mine, or mell-o-trons, but they are the property of Teemu Voipio
+// Check the license for more info
+
+//
+// The MSR byte: [read-only]
+// -------------
+//
+//  7   6   5    4    3    2    1    0
+// RQM DIO NDMA CB ACTD ACTC ACTB ACTA
+//
+// MRQ is 1 when FIFO is ready (test before read/write)
+// DIO tells if controller expects write (1) or read (0)
+//
+// NDMA tells if controller is in DMA mode (1 = no-DMA, 0 = DMA)
+// CB(BUSY) tells if controller is executing a command (1=busy)
+//
+// ACTA, ACTB, ACTC, ACTD tell which drives position/calibrate (1=yes)
+//
+//
+
+
+// The DOR byte: [write-only]
+// -------------
+//
+//  7    6    5    4    3   2    1   0
+// MOTD MOTC MOTB MOTA DMA NRST DR1 DR0
+//
+// DR1 and DR0 together select "current drive" = a/00, b/01, c/10, d/11
+// MOTA, MOTB, MOTC, MOTD control motors for the four drives (1=on)
+//
+// DMA line enables (1 = enable) interrupts and DMA
+// NRST is "not reset" so controller is enabled when it's 1
+//
+
+/*
+ * Data rate   value   Drive Type
+ * 1Mbps        3       2.88M
+ * 500Kbps      0       1.44M, 1.2M
+ */

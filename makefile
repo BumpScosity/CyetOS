@@ -1,69 +1,49 @@
-# This needs to be ran twice at first >-< (Forgot about this, but just keep doing yourself, kiddo)
+###
+# Not that good of a build script
+###
 
-CC = i386-elf-gcc
-LD = i386-elf-ld
-OBJ = i386-elf-objcopy
-VM = qemu-system-x86_64
-KEY = drivers/keyboard
-SC = drivers/screen
+###
+# NOTE, DO NOT MODIFY THE BUILD SCRIPT AT ALL
+###
 
-FLAGS = -Wno-implicit-function-declaration -nostdlib -nodefaultlibs -ffreestanding -m32 -g -c
-LDPRIORITY = ./bin/kernel_entry.o ./bin/kernel.o ./bin/cmd.o ./bin/vga.o
+## Compiler
+CC=i386-elf-gcc
 
-build:
-	$(call build_os)
+OBJCP=i386-elf-objcopy
+## Linker
+LD=i386-elf-ld
 
-clean: 
-	@echo clealing...
+SRC=$(shell pwd)
+OBJS = $(patsubst %.c,bin/%.o,$(SRCS))
+## Directory to write binaries to
+BIN=./bin
+## Compiler Flags
+FLAGS = -ffreestanding -m32 -fno-exceptions -g -c
+
+## C source files
+CSRC := $(shell find ./ -name "*.c")
+## C target files
+CTAR := $(patsubst %.c,%.o,$(CSRC))
+
+## Files which must be linked first, if things break just bodge it together
+LDPRIORITY = bin/kernel_entry.o bin/kernel.o bin/cmd.o bin/vga.o
+
+all: prebuild build
+
+prebuild:	## Prebuild instructions
+	clear
 	rm -rf bin
 	mkdir bin
 
-define build_os
-    $(call build_kernel)
-    nasm boot/boot.asm -o bin/boot.bin -i boot
-    cat bin/boot.bin bin/kernel.bin > bin/os.bin
-    qemu-img create bin/os.img 1440k
-    dd if=bin/os.bin of=bin/os.img conv=notrunc
-    $(VM) -drive file=bin/os.img,format=raw -m 128M
-endef
+build: boot $(ASMTAR) $(CTAR)
+	nasm boot/boot.asm -f bin -o bin/boot.bin -i boot
+	nasm kernel/kernel_entry.asm -f elf32 -o bin/kernel_entry.o
+	$(LD) -o bin/kernel.elf -Ttext 0x7ef0 $(LDPRIORITY) --start-group $(filter-out $(wildcard $(LDPRIORITY)), $(wildcard **/*.o)) --end-group --oformat elf32-i386 ## If this doesn't work, well, then you fix it yourself.
+	$(OBJCP) -O binary bin/kernel.elf bin/kernel.bin
+	cat bin/boot.bin bin/kernel.bin > bin/os.bin
+	qemu-img create os.img 1440k
+	dd if=bin/os.bin of=os.img conv=notrunc
+	qemu-system-x86_64 -drive format=raw,file=os.img,index=0,if=floppy -m 4G
 
-define build_drivers
-    $(CC) $(FLAGS) $(KEY)/input.c -o bin/input.o
-    $(CC) $(FLAGS) $(KEY)/keyboard.c -o bin/keyboard.o
-    $(CC) $(FLAGS) $(KEY)/keys.c -o bin/keys.o
-
-    $(CC) $(FLAGS) $(SC)/vga.c -o bin/vga.o
-    $(CC) $(FLAGS) $(SC)/vram.c -o bin/vram.o
-endef
-
-define build_shell
-    $(CC) $(FLAGS) shell/cmd.c -o bin/cmd.o
-    $(CC) $(FLAGS) shell/echo.c -o bin/echo.o
-    $(CC) $(FLAGS) shell/help.c -o bin/help.o
-    $(CC) $(FLAGS) shell/power.c -o bin/power.o
-    $(CC) $(FLAGS) shell/misc.c -o bin/misc.o
-endef
-
-define build_lib
-    $(CC) $(FLAGS) lib/lib.c -o bin/lib.o
-    $(CC) $(FLAGS) lib/asm.c -o bin/asm.o
-    $(CC) $(FLAGS) lib/string.c -o bin/string.o
-endef
-
-define build_core
-    $(CC) $(FLAGS) core/prog.c -o bin/prog.o
-    $(CC) $(FLAGS) core/menu.c -o bin/menu.o
-    $(CC) $(FLAGS) core/entry.c -o bin/entry.o
-endef
-
-define build_kernel
-    nasm -f elf kernel/kernel_entry.asm -o bin/kernel_entry.o
-    $(call build_drivers)
-    $(call build_shell)
-    $(call build_core)
-    $(call build_lib)
-    $(CC) $(FLAGS) memory/mem.c -o bin/mem.o
-    $(CC) $(FLAGS) kernel/kernel.c -o bin/kernel.o
-    $(LD) -o bin/kernel.elf -Ttext 0x7ef0 $(LDPRIORITY) $(shell find ./bin -name "*.o" ! -name "kernel_entry.o" ! -name "kernel.o" ! -name "cmd.o" ! -name "vga.o") --oformat elf32-i386
-    $(OBJ) -O binary bin/kernel.elf bin/kernel.bin
-endef
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o bin/$(@F)

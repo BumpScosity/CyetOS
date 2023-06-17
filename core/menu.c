@@ -1,12 +1,13 @@
 #include "../drivers/keyboard/keyboard.h"
 #include "../drivers/screen/vram.h"
 #include "../drivers/screen/vga.h"
+#include "../memory/dynamic.h"
 
 #include "prog.h"
 
 void shell() {
-    int *xy = (int*)0x99000;
-    int *rc = (int*)0x99900;
+    int *xy = kget("xy");
+    int *rc = kget("rc");
 
     int x, y;
 
@@ -32,8 +33,6 @@ void shell() {
     title("SHELL");
 
     unsigned char key;
-    int color = 0x07; // set color to white on black
-    int row, col;
     xy[0] = 2;
     xy[1] = 1;
 
@@ -51,5 +50,7 @@ void shell() {
     
     xy[0] = 3;
     xy[1] = 1;
+
+    rc[0] = 27;
     handle_keyboard();
 }

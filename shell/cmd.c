@@ -16,11 +16,6 @@ void parse(const char *line) {
                 echo(line);
                 break;
             }
-        case 'd':
-            if (strncmp(line, "dir", strlen("dir")-1) == 0) {
-                dir();
-                break;
-            }
         case 's':
             if (strncmp(line, "shutdown --qemu --old", strlen("shutdown --qemu --old")-1) == 0) {
                 shutdown("qemu2.00/bochs");

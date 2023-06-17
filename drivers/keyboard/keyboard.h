@@ -1,7 +1,4 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#pragma once
 
 void handle_keyboard();
 unsigned char getch();
-
-#endif // KEYBOARD_H

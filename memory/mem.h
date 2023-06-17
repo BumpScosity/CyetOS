@@ -1,5 +1,4 @@
-#ifndef MEM_H
-#define MEM_H
+#pragma once
 
 #include "../lib/typedef.h"
 
@@ -11,4 +10,5 @@ typedef struct {
 mem_t memget(void);
 mem_t upper_memget(void);
 
-#endif // MEM_H
+void* memcpy(void* dest, const void* src, size_t size);
+void* memset(void* dest, unsigned char val, size_t count);

@@ -1,9 +1,9 @@
-#include "cmd.h"
 #include "../drivers/screen/vga.h"
+#include "../memory/dynamic.h"
+
+#include "cmd.h"
 
 void echo(const char *s) {
-    int *xy = (int*)0x99000;
-
     // Find the index of the first space character
     char output[256];
     int space_index = -1;
